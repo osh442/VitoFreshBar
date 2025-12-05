@@ -1,0 +1,91 @@
+.site-footer {
+  background: var(--background);
+  padding: 60px 0 30px;
+  border-top: 1px solid rgba(17, 24, 39, 0.08);
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+}
+
+.footer-logo {
+  font-size: 2rem;
+  color: var(--primary);
+  margin: 0;
+}
+
+.site-footer h4 {
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: var(--text-muted);
+  text-decoration: none;
+  display: block;
+  margin-bottom: 8px;
+}
+
+.footer-social a {
+  display: inline-flex;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid var(--secondary);
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+  color: var(--secondary);
+  font-weight: 600;
+}
+
+.footer-payments span {
+  display: inline-block;
+  margin-right: 12px;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.footer-bottom {
+  margin-top: 40px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.footer-payments {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  align-items: center;
+}
+
+.payment-icon {
+  width: 60px;
+  height: 36px;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  display: inline-block;
+  filter: drop-shadow(0 2px 4px rgba(17, 24, 39, 0.15));
+}
+
+.payment-mastercard {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg');
+}
+
+.payment-visa {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg');
+}
+
+.payment-cash {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/25/Cash_icon.svg');
+}
+
+.payment-bank {
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/49/Bank_building_icon.svg');
+}

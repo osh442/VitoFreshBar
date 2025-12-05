@@ -1,0 +1,17 @@
+:root {
+  --primary: #10b981;
+  --secondary: #f97373;
+  --tertiary: #facc15;
+  --text-dark: #111827;
+  --text-muted: #6b7280;
+  --background: #fffdf7;
+  --surface: #fffdf7;
+  --light: #fffdf7;
+  --shadow: 0 20px 45px rgba(17, 24, 39, 0.08);
+  --shadow-sm: 0 12px 24px rgba(17, 24, 39, 0.06);
+  --radius-lg: 32px;
+  --radius-md: 18px;
+  --radius-sm: 10px;
+  --transition: all 0.25s ease;
+  --header-height: 82px;
+}
