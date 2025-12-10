@@ -15,6 +15,7 @@ import AdminLayout from '../pages/admin/AdminLayout';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import AdminProducts from '../pages/admin/AdminProducts';
 import AdminProductForm from '../pages/admin/AdminProductForm';
+import AdminSubmissions from '../pages/admin/AdminSubmissions';
 
 const AppRouter = () => (
   <Routes>
@@ -33,6 +34,7 @@ const AppRouter = () => (
         <Route path="products" element={<AdminProducts />} />
         <Route path="products/new" element={<AdminProductForm />} />
         <Route path="products/:id/edit" element={<AdminProductForm />} />
+        <Route path="submissions" element={<AdminSubmissions />} />
       </Route>
     </Route>
     <Route element={<GuestRoute />}>

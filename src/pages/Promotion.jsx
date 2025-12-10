@@ -19,7 +19,7 @@ const promos = [
 const Promotion = () => (
   <section className="section">
     <div className="container">
-      <p className="eyebrow">Промоции</p>
+      <h1 className="eyebrow">Промоции</h1>
       <h2>Сезонни предложения</h2>
       <div className="promo-grid">
         {promos.map((promo) => (

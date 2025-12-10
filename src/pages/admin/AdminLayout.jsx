@@ -6,13 +6,18 @@ const adminLinks = [
   {
     to: '/admin',
     label: 'Табло',
-    description: 'Общ преглед и метрики за последните активности.',
+    description: 'Обзор на профила и последните действия.',
     end: true,
   },
   {
     to: '/admin/products',
     label: 'Продукти',
-    description: 'Управлявай наличните предложения и промоции.',
+    description: 'Създай и управлявай продуктите в менюто.',
+  },
+  {
+    to: '/admin/submissions',
+    label: 'Запитвания',
+    description: 'Всички съобщения от контактната форма.',
   },
 ];
 
@@ -48,7 +53,7 @@ const AdminLayout = () => {
             <p className="admin-eyebrow">Admin Console</p>
             <h1>Здравей{user?.name ? `, ${user.name}` : ''}</h1>
             <p className="admin-subtitle">
-              {`Работиш в секция "${activeSection}". Бързите действия са вдясно.`}
+              {`В момента разглеждате секция "${activeSection}". Използвайте менюто отляво за други действия.`}
             </p>
           </div>
           <div className="admin-quick-actions">
@@ -71,7 +76,7 @@ const AdminLayout = () => {
             >
               Админ меню
               <span className="admin-nav-toggle-icon" aria-hidden="true">
-                ▼
+                ☰
               </span>
             </button>
             <nav className="admin-nav">
@@ -91,9 +96,9 @@ const AdminLayout = () => {
             </nav>
 
             <div className="admin-status-card">
-              <p className="status-label">Активна секция</p>
+              <p className="status-label">Активен изглед</p>
               <p className="status-value">{activeSection}</p>
-              <p className="status-note">Последна актуализация · {formattedDate}</p>
+              <p className="status-note">Последна актуализация: {formattedDate}</p>
             </div>
           </aside>
 

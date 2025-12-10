@@ -2,14 +2,14 @@
 
 VitoFreshBar is a modern single-page application built with React + Vite that showcases a premium juice & healthy bowls brand. The interface combines a cinematic hero, curated product collections, and an immersive admin console so you can manage an entire fresh bar menu from one experience.
 
-## 🌿 Concept & Goals
+## Concept & Goals
 
 - **Lifestyle-first feeling:** warm Instagram-inspired palette, bold hero, and full-bleed product cards to invite customers into the brand world.
 - **Real product management:** every item (smoothies, bowls, detox sets) lives in Firestore, so updates instantly reflect in the public catalogue.
 - **Seamless shopping preview:** visitors can browse categories, view detailed product pages, like favorites, and add to cart.
 - **Integrated admin tools:** authenticated managers can add, edit, deactivate, or delete menu items with visual controls and helpful filters.
 
-## ✨ Key Features
+## Key Features
 
 ### Public Website
 - Big hero section with a “freshly prepared in front of you” message.
@@ -34,14 +34,14 @@ VitoFreshBar is a modern single-page application built with React + Vite that sh
 - Product schema enforced through the API `normalize()` helper (title, description, price, likes, category, weight, isActive, createdAt).
 - CRUD operations + `toggleLike` implemented with Firestore transactions.
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend:** React 19, Vite, React Router 7.
 - **Styling:** Custom CSS (layout, hero, header, footer, admin, product cards) + Instagram-inspired mint/coral/yellow palette.
 - **Backend Services:** Firebase (Firestore + Auth).
 - **Tooling:** TypeScript-ready configuration, ESLint-friendly tsconfig, modern bundler settings.
 
-## 🚀 Getting Started
+## Getting Started
 
 ```bash
 git clone <repo-url>
@@ -51,7 +51,7 @@ npm run dev
 
 Set up your Firebase project, copy its config into `src/firebase.js`, and ensure Firestore + Auth are enabled.
 
-## 🔐 Admin Test Account
+## Admin Test Account
 
 Use this account to explore the administration workflow:
 
@@ -60,14 +60,14 @@ Use this account to explore the administration workflow:
 
 Once logged in, open `/admin` (or use the profile dropdown) to access the dashboard and product management tools.
 
-## 📸 Screens Worth Checking
+## Screens Worth Checking
 
 - `Home` & `HomeInfo` &rarr; immersive hero with CTA buttons.
 - `Menu` &rarr; category filters, responsive grid, ProductCard component.
 - `Details` &rarr; likes, nutritional info, buy button w/ auth guard.
 - `AdminLayout` &rarr; modern console with quick actions, filters, and CRUD.
 
-## ✅ Checklist Highlights
+## Checklist Highlights
 
 - Firebase configured with Firestore + Auth integration.
 - Product API fully migrated to Firestore (getAll, getOne, create, update, remove, toggleLike).
@@ -75,4 +75,4 @@ Once logged in, open `/admin` (or use the profile dropdown) to access the dashbo
 - Dynamic category filtering, loading/error messaging, likes, and cart additions.
 - Admin console with create/edit/delete/deactivate workflows, plus bulk operations.
 
-Enjoy building on VitoFreshBar! Combine the lifestyle visuals with Firebase data to craft your perfect fresh bar experience. 💚
+Enjoy building on VitoFreshBar! Combine the lifestyle visuals with Firebase data to craft your perfect fresh bar experience. 

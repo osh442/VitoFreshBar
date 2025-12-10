@@ -27,7 +27,7 @@ const About = () => (
   <section className="section about-page">
     <div className="container">
       <header className="about-header">
-        <p className="eyebrow">За нас</p>
+        <h1 className="eyebrow">За нас</h1>
         <h2>Живеем за сезонната кухня и честните продукти</h2>
         <p className="about-lead">
           От 2013 година готвим, за да предложим на хората истински свежи фрешове, приготвени с внимание и качество. Търсим баланс
