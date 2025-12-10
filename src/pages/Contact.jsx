@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const branches = [
   {
@@ -27,65 +27,69 @@ const branches = [
   },
 ];
 
-const STORAGE_KEY = 'contactSubmissions';
+const ContactMap = () => {
+  const [isMapVisible, setIsMapVisible] = useState(false);
+  const placeholderRef = useRef(null);
 
-const Contact = () => {
-  const [consents, setConsents] = useState({
-    declaration: false,
-    marketing: false,
-  });
-  const [submitted, setSubmitted] = useState(false);
-
-  const toggleConsent = (key) => {
-    setConsents((prev) => ({ ...prev, [key]: !prev[key] }));
-  };
-
-  const saveSubmission = (payload) => {
-    if (typeof window === 'undefined') return;
-    try {
-      const existing = JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]');
-      const next = [payload, ...existing].slice(0, 50);
-      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(next));
-      window.dispatchEvent(new Event('contactSubmissionsUpdated'));
-    } catch (error) {
-      console.error('Unable to persist contact submission', error);
-    }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    setSubmitted(false);
-
-    if (!consents.declaration) {
-      alert('Моля, потвърдете декларацията за защита на личните данни.');
+  useEffect(() => {
+    if (isMapVisible) return;
+    if (typeof window === 'undefined') {
       return;
     }
 
-    const formData = new FormData(event.currentTarget);
-    const submission = {
-      id: Date.now(),
-      submittedAt: new Date().toISOString(),
-      firstName: formData.get('firstName'),
-      lastName: formData.get('lastName'),
-      email: formData.get('email'),
-      phone: formData.get('phone') || '',
-      message: formData.get('message'),
-      acceptDeclaration: consents.declaration,
-      marketingOptIn: consents.marketing,
-    };
+    if (!('IntersectionObserver' in window)) {
+      setIsMapVisible(true);
+      return;
+    }
 
-    saveSubmission(submission);
-    event.currentTarget.reset();
-    setConsents({ declaration: false, marketing: false });
-    setSubmitted(true);
-  };
+    const element = placeholderRef.current;
+    if (!element) return;
 
+    const observer = new IntersectionObserver(
+      (entries, obs) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setIsMapVisible(true);
+            obs.disconnect();
+          }
+        });
+      },
+      { rootMargin: '200px' }
+    );
+
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [isMapVisible]);
+
+  return (
+    <div className="contact-map">
+      {isMapVisible ? (
+        <iframe
+          title="Локации на VitoFresh Bar"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3026.512288075417!2d23.31924777671155!3d42.68828251557711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa857664c86151%3A0xef3d37c8a0c0c1a7!2sVitosha%20Blvd%2C%20Sofia!5e0!3m2!1sen!2sbg!4v1700000000000!5m2!1sen!2sbg"
+          loading="lazy"
+          referrerPolicy="no-referrer-when-downgrade"
+          allowFullScreen
+        />
+      ) : (
+        <div className="map-placeholder" ref={placeholderRef}>
+          <p>Картата на Google се зарежда само при нужда, за да избегнем предупреждения в конзолата.</p>
+          <button type="button" className="btn btn-primary" onClick={() => setIsMapVisible(true)}>
+            Показване на картата
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+
+const Contact = () => {
   return (
     <section className="section contact-page">
       <div className="container">
         <header className="contact-header">
           <div>
-            <p className="eyebrow">Свържете се с нас</p>
+            <h1 className="eyebrow">Свържете се с нас</h1>
             <h2>Готови сме да ви изслушаме</h2>
           </div>
           <p>
@@ -120,66 +124,33 @@ const Contact = () => {
             ))}
           </div>
 
-          <form className="contact-form" onSubmit={handleSubmit}>
-            <div className="form-row">
-              <label>
-                Име*
-                <input name="firstName" required />
-              </label>
-              <label>
-                Фамилия*
-                <input name="lastName" required />
-              </label>
-            </div>
-            <div className="form-row">
-              <label>
-                Имейл*
-                <input type="email" name="email" required />
-              </label>
-              <label>
-                Телефон
-                <input name="phone" />
-              </label>
-            </div>
-            <label>
-              Съобщение*
-              <textarea name="message" rows={5} required />
-            </label>
-            <div className="contact-checkboxes">
-              <button
-                type="button"
-                className={`consent-chip ${consents.declaration ? 'active' : ''}`}
-                onClick={() => toggleConsent('declaration')}
-                aria-pressed={consents.declaration}
-              >
-                <span className="consent-chip-icon" aria-hidden="true">
-                  <span className="consent-chip-spark" />
-                </span>
-                <span className="consent-chip-text">Приемам Декларация за защита на лични данни</span>
-              </button>
-              <button
-                type="button"
-                className={`consent-chip ${consents.marketing ? 'active' : ''}`}
-                onClick={() => toggleConsent('marketing')}
-                aria-pressed={consents.marketing}
-              >
-                <span className="consent-chip-icon" aria-hidden="true">
-                  <span className="consent-chip-spark" />
-                </span>
-                <span className="consent-chip-text">Присъединявам се към маркетинг листа</span>
-              </button>
-            </div>
-            <input type="hidden" name="acceptDeclaration" value={consents.declaration ? 'yes' : 'no'} />
-            <input type="hidden" name="marketingOptIn" value={consents.marketing ? 'yes' : 'no'} />
-            <button type="submit" className="btn btn-primary form-submit">
-              Изпрати
-            </button>
-            {submitted && (
-              <p className="form-success" role="status">
-                Благодарим! Съобщението е изпратено успешно.
-              </p>
-            )}
-          </form>
+          <div className="contact-form contact-form-disabled">
+            <h3>Онлайн формата е временно деактивирана</h3>
+            <p>
+              За да получим вашето запитване, използвайте директните ни канали за връзка. Така
+              гарантираме, че съобщенията достигат до екипа веднага, без да се съхраняват в админ
+              панела.
+            </p>
+            <ul className="contact-disabled-list">
+              <li>
+                <strong>Телефон:</strong> <a href="tel:+359895525955">+359 895 525 955</a>
+              </li>
+              <li>
+                <strong>Имейл:</strong>{' '}
+                <a href="mailto:customer@vitoFreshBar.bg">customer@vitoFreshBar.bg</a>
+              </li>
+              <li>
+                <strong>Messenger:</strong>{' '}
+                <a href="https://m.me/vitofreshbar" target="_blank" rel="noreferrer">
+                  m.me/vitofreshbar
+                </a>
+              </li>
+            </ul>
+            <p className="contact-disabled-note">
+              Благодарим за разбирането – работим по нов дигитален канал, а дотогава приемаме всички
+              заявки лично.
+            </p>
+          </div>
         </div>
 
         <p className="contact-note">
@@ -189,14 +160,7 @@ const Contact = () => {
           вас в рамките на един работен ден.
         </p>
 
-        <div className="contact-map">
-          <iframe
-            title="Локации на VitoFresh Bar"
-            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3026.512288075417!2d23.31924777671155!3d42.68828251557711!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40aa857664c86151%3A0xef3d37c8a0c0c1a7!2sVitosha%20Blvd%2C%20Sofia!5e0!3m2!1sen!2sbg!4v1700000000000!5m2!1sen!2sbg"
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-          />
-        </div>
+        <ContactMap />
       </div>
     </section>
   );

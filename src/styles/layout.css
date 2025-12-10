@@ -523,7 +523,7 @@ a {
 
 .contact-header p {
   color: var(--text-muted);
-  line-height: 1.8;
+  line-height: 1.5  ;
 }
 
 .contact-layout {
@@ -600,6 +600,35 @@ a {
 .contact-form textarea {
   resize: none;
   min-height: 160px;
+}
+
+.contact-form-disabled {
+  gap: 12px;
+}
+
+.contact-form-disabled h3 {
+  margin: 0;
+}
+
+.contact-disabled-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: var(--text-dark);
+}
+
+.contact-disabled-list strong {
+  display: inline-block;
+  min-width: 90px;
+}
+
+.contact-disabled-note {
+  margin: 0;
+  color: var(--text-muted);
+  font-size: 0.9rem;
 }
 
 .form-row {
@@ -768,6 +797,25 @@ a {
   width: 100%;
   height: 100%;
   border: 0;
+}
+
+.map-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+  padding: 24px;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(255, 255, 255, 0.9));
+}
+
+.map-placeholder p {
+  margin: 0;
+  color: var(--text-muted);
+  max-width: 420px;
 }
 
 .promo-grid {

@@ -1,59 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
-
-const STORAGE_KEY = 'contactSubmissions';
-
-const getStoredSubmissions = () => {
-  if (typeof window === 'undefined') {
-    return [];
-  }
-
-  try {
-    return JSON.parse(sessionStorage.getItem(STORAGE_KEY) || '[]');
-  } catch (error) {
-    console.error('Unable to parse contact submissions', error);
-    return [];
-  }
-};
-
 const AdminSubmissions = () => {
-  const [submissions, setSubmissions] = useState(getStoredSubmissions);
-  const [search, setSearch] = useState('');
-
-  useEffect(() => {
-    const handleUpdate = () => setSubmissions(getStoredSubmissions());
-    window.addEventListener('contactSubmissionsUpdated', handleUpdate);
-    handleUpdate();
-
-    const handleStorage = (event) => {
-      if (event.key === STORAGE_KEY) {
-        handleUpdate();
-      }
-    };
-
-    window.addEventListener('storage', handleStorage);
-    return () => {
-      window.removeEventListener('contactSubmissionsUpdated', handleUpdate);
-      window.removeEventListener('storage', handleStorage);
-    };
-  }, []);
-
-  const filtered = useMemo(() => {
-    const term = search.toLowerCase();
-    return submissions.filter((item) =>
-      [item.firstName, item.lastName, item.email, item.message].some((field) =>
-        (field || '').toLowerCase().includes(term),
-      ),
-    );
-  }, [submissions, search]);
-
-  const clearSubmissions = () => {
-    if (typeof window === 'undefined') return;
-    if (!window.confirm('Сигурни ли сте, че искате да изчистите всички записи?')) return;
-    sessionStorage.removeItem(STORAGE_KEY);
-    window.dispatchEvent(new Event('contactSubmissionsUpdated'));
-    setSubmissions([]);
-  };
-
   return (
     <div className="admin-card">
       <div className="admin-card-header" style={{ marginBottom: '1rem' }}>
@@ -61,55 +6,24 @@ const AdminSubmissions = () => {
           <p className="eyebrow">Контактна форма</p>
           <h2>Всички запитвания</h2>
           <p className="admin-subtitle">
-            Запазени са локално в sessionStorage за демонстрационни цели.
+            Онлайн формата е деактивирана и вече не записва данни в админ панела.
           </p>
-        </div>
-        <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap' }}>
-          <input
-            type="search"
-            className="admin-search"
-            placeholder="Филтър по име, имейл или съобщение..."
-            value={search}
-            onChange={(event) => setSearch(event.target.value)}
-          />
-          <button type="button" className="btn btn-outline" onClick={clearSubmissions}>
-            Изчисти
-          </button>
         </div>
       </div>
 
-      {filtered.length === 0 ? (
-        <p>Няма изпратени форми или търсенето не върна резултати.</p>
-      ) : (
-        <div className="admin-table-wrapper">
-          <table className="admin-table submissions-table">
-            <thead>
-              <tr>
-                <th>Дата</th>
-                <th>Клиент</th>
-                <th>Имейл</th>
-                <th>Телефон</th>
-                <th>Маркетинг</th>
-                <th>Съобщение</th>
-              </tr>
-            </thead>
-            <tbody>
-              {filtered.map((entry) => (
-                <tr key={entry.id}>
-                  <td>{new Date(entry.submittedAt).toLocaleString('bg-BG')}</td>
-                  <td>
-                    {entry.firstName} {entry.lastName}
-                  </td>
-                  <td>{entry.email}</td>
-                  <td>{entry.phone || '—'}</td>
-                  <td>{entry.marketingOptIn ? 'Да' : 'Не'}</td>
-                  <td>{entry.message}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
+      <p>
+        За да проследявате клиентските въпроси, следете корпоративната поща и телефон. Всички нови
+        заявки постъпват единствено през тези канали.
+      </p>
+
+      <ul className="contact-disabled-list">
+        <li>
+          <strong>Имейл:</strong> <a href="mailto:customer@vitoFreshBar.bg">customer@vitoFreshBar.bg</a>
+        </li>
+        <li>
+          <strong>Телефон:</strong> <a href="tel:+359895525955">+359 895 525 955</a>
+        </li>
+      </ul>
     </div>
   );
 };
